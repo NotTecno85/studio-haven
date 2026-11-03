@@ -15,6 +15,8 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as SigninRouteImport } from './routes/signin'
+import { Route as ClientAssetsRouteImport } from './routes/_client.assets'
+import { Route as ClientBookerRouteImport } from './routes/_client.booker'
 import { Route as ClientTasksRouteImport } from './routes/_client.tasks'
 
 const IndexRoute = IndexRouteImport.update({
@@ -46,6 +48,16 @@ const SigninRoute = SigninRouteImport.update({
   path: '/signin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ClientAssetsRoute = ClientAssetsRouteImport.update({
+  id: '/assets',
+  path: '/assets',
+  getParentRoute: () => ClientRoute,
+} as any)
+const ClientBookerRoute = ClientBookerRouteImport.update({
+  id: '/booker',
+  path: '/booker',
+  getParentRoute: () => ClientRoute,
+} as any)
 const ClientTasksRoute = ClientTasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
@@ -58,6 +70,8 @@ export interface FileRoutesByFullPath {
   '/portfolio': typeof PortfolioRoute
   '/pricing': typeof PricingRoute
   '/signin': typeof SigninRoute
+  '/assets': typeof ClientAssetsRoute
+  '/booker': typeof ClientBookerRoute
   '/tasks': typeof ClientTasksRoute
 }
 export interface FileRoutesByTo {
@@ -66,6 +80,8 @@ export interface FileRoutesByTo {
   '/portfolio': typeof PortfolioRoute
   '/pricing': typeof PricingRoute
   '/signin': typeof SigninRoute
+  '/assets': typeof ClientAssetsRoute
+  '/booker': typeof ClientBookerRoute
   '/tasks': typeof ClientTasksRoute
 }
 export interface FileRoutesById {
@@ -76,14 +92,31 @@ export interface FileRoutesById {
   '/portfolio': typeof PortfolioRoute
   '/pricing': typeof PricingRoute
   '/signin': typeof SigninRoute
+  '/_client/assets': typeof ClientAssetsRoute
+  '/_client/booker': typeof ClientBookerRoute
   '/_client/tasks': typeof ClientTasksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/checkout' | '/portfolio' | '/pricing' | '/signin' | '/tasks'
+    | '/'
+    | '/checkout'
+    | '/portfolio'
+    | '/pricing'
+    | '/signin'
+    | '/assets'
+    | '/booker'
+    | '/tasks'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/checkout' | '/portfolio' | '/pricing' | '/signin' | '/tasks'
+  to:
+    | '/'
+    | '/checkout'
+    | '/portfolio'
+    | '/pricing'
+    | '/signin'
+    | '/assets'
+    | '/booker'
+    | '/tasks'
   id:
     | '__root__'
     | '/'
@@ -92,6 +125,8 @@ export interface FileRouteTypes {
     | '/portfolio'
     | '/pricing'
     | '/signin'
+    | '/_client/assets'
+    | '/_client/booker'
     | '/_client/tasks'
   fileRoutesById: FileRoutesById
 }
@@ -148,6 +183,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SigninRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_client/assets': {
+      id: '/_client/assets'
+      path: '/assets'
+      fullPath: '/assets'
+      preLoaderRoute: typeof ClientAssetsRouteImport
+      parentRoute: typeof ClientRoute
+    }
+    '/_client/booker': {
+      id: '/_client/booker'
+      path: '/booker'
+      fullPath: '/booker'
+      preLoaderRoute: typeof ClientBookerRouteImport
+      parentRoute: typeof ClientRoute
+    }
     '/_client/tasks': {
       id: '/_client/tasks'
       path: '/tasks'
@@ -159,10 +208,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface ClientRouteChildren {
+  ClientAssetsRoute: typeof ClientAssetsRoute
+  ClientBookerRoute: typeof ClientBookerRoute
   ClientTasksRoute: typeof ClientTasksRoute
 }
 
 const ClientRouteChildren: ClientRouteChildren = {
+  ClientAssetsRoute: ClientAssetsRoute,
+  ClientBookerRoute: ClientBookerRoute,
   ClientTasksRoute: ClientTasksRoute,
 }
 
