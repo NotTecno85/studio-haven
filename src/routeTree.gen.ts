@@ -10,14 +10,20 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ClientRouteImport } from './routes/_client'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as SigninRouteImport } from './routes/signin'
+import { Route as ClientTasksRouteImport } from './routes/_client.tasks'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClientRoute = ClientRouteImport.update({
+  id: '/_client',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckoutRoute = CheckoutRouteImport.update({
@@ -40,6 +46,11 @@ const SigninRoute = SigninRouteImport.update({
   path: '/signin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ClientTasksRoute = ClientTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => ClientRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/portfolio': typeof PortfolioRoute
   '/pricing': typeof PricingRoute
   '/signin': typeof SigninRoute
+  '/tasks': typeof ClientTasksRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,25 +66,38 @@ export interface FileRoutesByTo {
   '/portfolio': typeof PortfolioRoute
   '/pricing': typeof PricingRoute
   '/signin': typeof SigninRoute
+  '/tasks': typeof ClientTasksRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_client': typeof ClientRouteWithChildren
   '/checkout': typeof CheckoutRoute
   '/portfolio': typeof PortfolioRoute
   '/pricing': typeof PricingRoute
   '/signin': typeof SigninRoute
+  '/_client/tasks': typeof ClientTasksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/checkout' | '/portfolio' | '/pricing' | '/signin'
+  fullPaths:
+    '/' | '/checkout' | '/portfolio' | '/pricing' | '/signin' | '/tasks'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/checkout' | '/portfolio' | '/pricing' | '/signin'
-  id: '__root__' | '/' | '/checkout' | '/portfolio' | '/pricing' | '/signin'
+  to: '/' | '/checkout' | '/portfolio' | '/pricing' | '/signin' | '/tasks'
+  id:
+    | '__root__'
+    | '/'
+    | '/_client'
+    | '/checkout'
+    | '/portfolio'
+    | '/pricing'
+    | '/signin'
+    | '/_client/tasks'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ClientRoute: typeof ClientRouteWithChildren
   CheckoutRoute: typeof CheckoutRoute
   PortfolioRoute: typeof PortfolioRoute
   PricingRoute: typeof PricingRoute
@@ -86,6 +111,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_client': {
+      id: '/_client'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ClientRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/checkout': {
@@ -116,11 +148,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SigninRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_client/tasks': {
+      id: '/_client/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof ClientTasksRouteImport
+      parentRoute: typeof ClientRoute
+    }
   }
 }
 
+interface ClientRouteChildren {
+  ClientTasksRoute: typeof ClientTasksRoute
+}
+
+const ClientRouteChildren: ClientRouteChildren = {
+  ClientTasksRoute: ClientTasksRoute,
+}
+
+const ClientRouteWithChildren =
+  ClientRoute._addFileChildren(ClientRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ClientRoute: ClientRouteWithChildren,
   CheckoutRoute: CheckoutRoute,
   PortfolioRoute: PortfolioRoute,
   PricingRoute: PricingRoute,
