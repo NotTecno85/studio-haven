@@ -10,33 +10,133 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ClientRouteImport } from './routes/_client'
+import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as SigninRouteImport } from './routes/signin'
+import { Route as ClientAssetsRouteImport } from './routes/_client.assets'
+import { Route as ClientBookerRouteImport } from './routes/_client.booker'
+import { Route as ClientTasksRouteImport } from './routes/_client.tasks'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ClientRoute = ClientRouteImport.update({
+  id: '/_client',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SigninRoute = SigninRouteImport.update({
+  id: '/signin',
+  path: '/signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClientAssetsRoute = ClientAssetsRouteImport.update({
+  id: '/assets',
+  path: '/assets',
+  getParentRoute: () => ClientRoute,
+} as any)
+const ClientBookerRoute = ClientBookerRouteImport.update({
+  id: '/booker',
+  path: '/booker',
+  getParentRoute: () => ClientRoute,
+} as any)
+const ClientTasksRoute = ClientTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => ClientRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/checkout': typeof CheckoutRoute
+  '/portfolio': typeof PortfolioRoute
+  '/pricing': typeof PricingRoute
+  '/signin': typeof SigninRoute
+  '/assets': typeof ClientAssetsRoute
+  '/booker': typeof ClientBookerRoute
+  '/tasks': typeof ClientTasksRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/checkout': typeof CheckoutRoute
+  '/portfolio': typeof PortfolioRoute
+  '/pricing': typeof PricingRoute
+  '/signin': typeof SigninRoute
+  '/assets': typeof ClientAssetsRoute
+  '/booker': typeof ClientBookerRoute
+  '/tasks': typeof ClientTasksRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_client': typeof ClientRouteWithChildren
+  '/checkout': typeof CheckoutRoute
+  '/portfolio': typeof PortfolioRoute
+  '/pricing': typeof PricingRoute
+  '/signin': typeof SigninRoute
+  '/_client/assets': typeof ClientAssetsRoute
+  '/_client/booker': typeof ClientBookerRoute
+  '/_client/tasks': typeof ClientTasksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/checkout'
+    | '/portfolio'
+    | '/pricing'
+    | '/signin'
+    | '/assets'
+    | '/booker'
+    | '/tasks'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/checkout'
+    | '/portfolio'
+    | '/pricing'
+    | '/signin'
+    | '/assets'
+    | '/booker'
+    | '/tasks'
+  id:
+    | '__root__'
+    | '/'
+    | '/_client'
+    | '/checkout'
+    | '/portfolio'
+    | '/pricing'
+    | '/signin'
+    | '/_client/assets'
+    | '/_client/booker'
+    | '/_client/tasks'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ClientRoute: typeof ClientRouteWithChildren
+  CheckoutRoute: typeof CheckoutRoute
+  PortfolioRoute: typeof PortfolioRoute
+  PricingRoute: typeof PricingRoute
+  SigninRoute: typeof SigninRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +148,87 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_client': {
+      id: '/_client'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ClientRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signin': {
+      id: '/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof SigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_client/assets': {
+      id: '/_client/assets'
+      path: '/assets'
+      fullPath: '/assets'
+      preLoaderRoute: typeof ClientAssetsRouteImport
+      parentRoute: typeof ClientRoute
+    }
+    '/_client/booker': {
+      id: '/_client/booker'
+      path: '/booker'
+      fullPath: '/booker'
+      preLoaderRoute: typeof ClientBookerRouteImport
+      parentRoute: typeof ClientRoute
+    }
+    '/_client/tasks': {
+      id: '/_client/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof ClientTasksRouteImport
+      parentRoute: typeof ClientRoute
+    }
   }
 }
 
+interface ClientRouteChildren {
+  ClientAssetsRoute: typeof ClientAssetsRoute
+  ClientBookerRoute: typeof ClientBookerRoute
+  ClientTasksRoute: typeof ClientTasksRoute
+}
+
+const ClientRouteChildren: ClientRouteChildren = {
+  ClientAssetsRoute: ClientAssetsRoute,
+  ClientBookerRoute: ClientBookerRoute,
+  ClientTasksRoute: ClientTasksRoute,
+}
+
+const ClientRouteWithChildren =
+  ClientRoute._addFileChildren(ClientRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ClientRoute: ClientRouteWithChildren,
+  CheckoutRoute: CheckoutRoute,
+  PortfolioRoute: PortfolioRoute,
+  PricingRoute: PricingRoute,
+  SigninRoute: SigninRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
