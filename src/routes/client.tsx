@@ -10,12 +10,16 @@ import {
 import { clearSessionToken, readSessionToken } from "@/lib/auth";
 import { PanelBoundary } from "@/components/error-boundary";
 
-export const Route = createFileRoute("/_client")({
-  beforeLoad: () => {
+export const Route = createFileRoute("/client")({
+  beforeLoad: ({ location }) => {
     // Synchronous localStorage gate: a valid session token grants uninterrupted
     // passage across every /client/* path, including after hard refresh (F5).
-    if (typeof window !== "undefined" && !readSessionToken()) {
+    if (typeof window === "undefined") return;
+    if (!readSessionToken()) {
       throw redirect({ to: "/signin" });
+    }
+    if (location.pathname === "/client") {
+      throw redirect({ to: "/client/tasks" });
     }
   },
   component: ClientWorkspaceLayout,

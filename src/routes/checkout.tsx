@@ -24,11 +24,13 @@ export const Route = createFileRoute("/checkout")({
   component: Checkout,
 });
 
-const TIERS: Record<string, { label: string; monthly: number }> = {
+const TIERS = {
   studio: { label: "Studio", monthly: 6000 },
   atelier: { label: "Atelier", monthly: 16000 },
   obsidian: { label: "Obsidian", monthly: 33000 },
-};
+} as const;
+
+type TierKey = keyof typeof TIERS;
 
 const VOUCHERS: Record<string, number> = {
   STUDIO20: 0.2,
@@ -39,8 +41,9 @@ const VOUCHERS: Record<string, number> = {
 function Checkout() {
   const { tier } = Route.useSearch();
   const navigate = useNavigate();
-  const selected = TIERS[tier] ? tier : "studio";
-  const monthly = TIERS[selected].monthly;
+  const selected: TierKey = tier in TIERS ? (tier as TierKey) : "studio";
+  const tierInfo = TIERS[selected];
+  const monthly = tierInfo.monthly;
 
   const [form, setForm] = useState({
     name: "",
@@ -195,7 +198,7 @@ function Checkout() {
               <div className="mt-6 space-y-3 text-sm">
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">Engagement tier</span>
-                  <span className="font-medium">{TIERS[selected].label}</span>
+                  <span className="font-medium">{tierInfo.label}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">Base retainer</span>

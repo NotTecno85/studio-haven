@@ -2,10 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { CheckCircle2, CircleDashed, Plus, Trash2 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
-import { WorkspaceHeader } from "@/routes/_client";
+import { WorkspaceHeader } from "@/routes/client";
 import { PanelBoundary } from "@/components/error-boundary";
 
-export const Route = createFileRoute("/_client/tasks")({
+export const Route = createFileRoute("/client/tasks")({
   head: () => ({
     meta: [
       { title: "Milestones — Obsidian Atelier Workspace" },

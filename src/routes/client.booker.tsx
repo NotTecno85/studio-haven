@@ -2,10 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { CalendarCheck, Clock } from "lucide-react";
 import { toast } from "sonner";
-import { WorkspaceHeader } from "@/routes/_client";
+import { WorkspaceHeader } from "@/routes/client";
 import { PanelBoundary } from "@/components/error-boundary";
 
-export const Route = createFileRoute("/_client/booker")({
+export const Route = createFileRoute("/client/booker")({
   head: () => ({
     meta: [
       { title: "Session Booker — Obsidian Atelier Workspace" },

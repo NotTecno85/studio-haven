@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Check, Copy, Database, Globe, KeyRound, Terminal } from "lucide-react";
-import { WorkspaceHeader } from "@/routes/_client";
+import { WorkspaceHeader } from "@/routes/client";
 import { PanelBoundary } from "@/components/error-boundary";
 
-export const Route = createFileRoute("/_client/assets")({
+export const Route = createFileRoute("/client/assets")({
   head: () => ({
     meta: [
       { title: "Asset Vault — Obsidian Atelier Workspace" },
