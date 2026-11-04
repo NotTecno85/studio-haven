@@ -5,7 +5,7 @@ import { PanelBoundary } from "@/components/error-boundary";
 
 export const Route = createFileRoute("/checkout")({
   validateSearch: (search: Record<string, unknown>) => ({
-    tier: typeof search.tier === "string" ? search.tier : "studio",
+    tier: typeof search["tier"] === "string" ? search["tier"] : "studio",
   }),
   head: () => ({
     meta: [
