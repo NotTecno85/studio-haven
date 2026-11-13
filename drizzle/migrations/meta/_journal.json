@@ -8,6 +8,34 @@
       "when": 1794498837101,
       "tag": "0000_client_portal_schema",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794557119135,
+      "tag": "0001_collaborator_invites",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794557489289,
+      "tag": "0002_secure_team_invite_acceptance",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794557570828,
+      "tag": "0003_verified_team_invite_acceptance",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794557693452,
+      "tag": "0004_verified_invitation_claims",
+      "breakpoints": true
     }
   ]
 }

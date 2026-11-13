@@ -143,12 +143,57 @@ export type Database = {
         }
         Relationships: []
       }
+      team_invites: {
+        Row: {
+          access_level: string
+          created_at: string
+          id: string
+          invite_email: string
+          member_user_id: string | null
+          owner_id: string
+          status: string
+        }
+        Insert: {
+          access_level?: string
+          created_at?: string
+          id?: string
+          invite_email: string
+          member_user_id?: string | null
+          owner_id: string
+          status?: string
+        }
+        Update: {
+          access_level?: string
+          created_at?: string
+          id?: string
+          invite_email?: string
+          member_user_id?: string | null
+          owner_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_invites_member_user_id_fkey"
+            columns: ["member_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "team_invites_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      accept_team_invite: { Args: { _invite_id: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
