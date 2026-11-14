@@ -12,8 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ClientRouteImport } from './routes/client'
-import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as ShowcaseRouteImport } from './routes/showcase'
 import { Route as SigninRouteImport } from './routes/signin'
 import { Route as ClientAssetsRouteImport } from './routes/client.assets'
 import { Route as ClientBookerRouteImport } from './routes/client.booker'
@@ -34,14 +34,14 @@ const ClientRoute = ClientRouteImport.update({
   path: '/client',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PortfolioRoute = PortfolioRouteImport.update({
-  id: '/portfolio',
-  path: '/portfolio',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShowcaseRoute = ShowcaseRouteImport.update({
+  id: '/showcase',
+  path: '/showcase',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SigninRoute = SigninRouteImport.update({
@@ -69,8 +69,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/checkout': typeof CheckoutRoute
   '/client': typeof ClientRouteWithChildren
-  '/portfolio': typeof PortfolioRoute
   '/pricing': typeof PricingRoute
+  '/showcase': typeof ShowcaseRoute
   '/signin': typeof SigninRoute
   '/client/assets': typeof ClientAssetsRoute
   '/client/booker': typeof ClientBookerRoute
@@ -80,8 +80,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/checkout': typeof CheckoutRoute
   '/client': typeof ClientRouteWithChildren
-  '/portfolio': typeof PortfolioRoute
   '/pricing': typeof PricingRoute
+  '/showcase': typeof ShowcaseRoute
   '/signin': typeof SigninRoute
   '/client/assets': typeof ClientAssetsRoute
   '/client/booker': typeof ClientBookerRoute
@@ -92,8 +92,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/checkout': typeof CheckoutRoute
   '/client': typeof ClientRouteWithChildren
-  '/portfolio': typeof PortfolioRoute
   '/pricing': typeof PricingRoute
+  '/showcase': typeof ShowcaseRoute
   '/signin': typeof SigninRoute
   '/client/assets': typeof ClientAssetsRoute
   '/client/booker': typeof ClientBookerRoute
@@ -105,8 +105,8 @@ export interface FileRouteTypes {
     | '/'
     | '/checkout'
     | '/client'
-    | '/portfolio'
     | '/pricing'
+    | '/showcase'
     | '/signin'
     | '/client/assets'
     | '/client/booker'
@@ -116,8 +116,8 @@ export interface FileRouteTypes {
     | '/'
     | '/checkout'
     | '/client'
-    | '/portfolio'
     | '/pricing'
+    | '/showcase'
     | '/signin'
     | '/client/assets'
     | '/client/booker'
@@ -127,8 +127,8 @@ export interface FileRouteTypes {
     | '/'
     | '/checkout'
     | '/client'
-    | '/portfolio'
     | '/pricing'
+    | '/showcase'
     | '/signin'
     | '/client/assets'
     | '/client/booker'
@@ -139,8 +139,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CheckoutRoute: typeof CheckoutRoute
   ClientRoute: typeof ClientRouteWithChildren
-  PortfolioRoute: typeof PortfolioRoute
   PricingRoute: typeof PricingRoute
+  ShowcaseRoute: typeof ShowcaseRoute
   SigninRoute: typeof SigninRoute
 }
 
@@ -167,18 +167,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClientRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/portfolio': {
-      id: '/portfolio'
-      path: '/portfolio'
-      fullPath: '/portfolio'
-      preLoaderRoute: typeof PortfolioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/pricing': {
       id: '/pricing'
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/showcase': {
+      id: '/showcase'
+      path: '/showcase'
+      fullPath: '/showcase'
+      preLoaderRoute: typeof ShowcaseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/signin': {
@@ -231,8 +231,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CheckoutRoute: CheckoutRoute,
   ClientRoute: ClientRouteWithChildren,
-  PortfolioRoute: PortfolioRoute,
   PricingRoute: PricingRoute,
+  ShowcaseRoute: ShowcaseRoute,
   SigninRoute: SigninRoute,
 }
 export const routeTree = rootRouteImport
