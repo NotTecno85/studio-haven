@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Link, Outlet, redirect, useNavigate, useRouterState } from "@tanstack/react-router";
-import { ArrowUpRight, BriefcaseBusiness, Check, Compass, FolderKanban, LogOut, Settings2, Sparkles, WalletCards } from "lucide-react";
+import { ArrowUpRight, Check, Compass, FolderKanban, LogOut, Settings2, Sparkles, WalletCards } from "lucide-react";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { PanelBoundary } from "@/components/error-boundary";
@@ -94,6 +94,10 @@ export function PortalLayout() {
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const { session, ready } = usePortalSession();
+
+  useEffect(() => {
+    if (ready && !session) void navigate({ to: "/signin", replace: true });
+  }, [navigate, ready, session]);
 
   const signOut = async () => {
     if (session?.isDemo) {
