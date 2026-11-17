@@ -10,12 +10,15 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PortalRouteImport } from './routes/_portal'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ClientRouteImport } from './routes/client'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ShowcaseRouteImport } from './routes/showcase'
 import { Route as SigninRouteImport } from './routes/signin'
+import { Route as PortalVaultRouteImport } from './routes/_portal.vault'
+import { Route as PortalWorkspaceRouteImport } from './routes/_portal.workspace'
 import { Route as ClientAssetsRouteImport } from './routes/client.assets'
 import { Route as ClientBookerRouteImport } from './routes/client.booker'
 import { Route as ClientTasksRouteImport } from './routes/client.tasks'
@@ -23,6 +26,10 @@ import { Route as ClientTasksRouteImport } from './routes/client.tasks'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalRoute = PortalRouteImport.update({
+  id: '/_portal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckoutRoute = CheckoutRouteImport.update({
@@ -55,6 +62,16 @@ const SigninRoute = SigninRouteImport.update({
   path: '/signin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalVaultRoute = PortalVaultRouteImport.update({
+  id: '/vault',
+  path: '/vault',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalWorkspaceRoute = PortalWorkspaceRouteImport.update({
+  id: '/workspace',
+  path: '/workspace',
+  getParentRoute: () => PortalRoute,
+} as any)
 const ClientAssetsRoute = ClientAssetsRouteImport.update({
   id: '/assets',
   path: '/assets',
@@ -79,6 +96,8 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof PricingRoute
   '/showcase': typeof ShowcaseRoute
   '/signin': typeof SigninRoute
+  '/vault': typeof PortalVaultRoute
+  '/workspace': typeof PortalWorkspaceRoute
   '/client/assets': typeof ClientAssetsRoute
   '/client/booker': typeof ClientBookerRoute
   '/client/tasks': typeof ClientTasksRoute
@@ -91,6 +110,8 @@ export interface FileRoutesByTo {
   '/pricing': typeof PricingRoute
   '/showcase': typeof ShowcaseRoute
   '/signin': typeof SigninRoute
+  '/vault': typeof PortalVaultRoute
+  '/workspace': typeof PortalWorkspaceRoute
   '/client/assets': typeof ClientAssetsRoute
   '/client/booker': typeof ClientBookerRoute
   '/client/tasks': typeof ClientTasksRoute
@@ -98,12 +119,15 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_portal': typeof PortalRouteWithChildren
   '/checkout': typeof CheckoutRoute
   '/client': typeof ClientRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
   '/showcase': typeof ShowcaseRoute
   '/signin': typeof SigninRoute
+  '/_portal/vault': typeof PortalVaultRoute
+  '/_portal/workspace': typeof PortalWorkspaceRoute
   '/client/assets': typeof ClientAssetsRoute
   '/client/booker': typeof ClientBookerRoute
   '/client/tasks': typeof ClientTasksRoute
@@ -118,6 +142,8 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/showcase'
     | '/signin'
+    | '/vault'
+    | '/workspace'
     | '/client/assets'
     | '/client/booker'
     | '/client/tasks'
@@ -130,18 +156,23 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/showcase'
     | '/signin'
+    | '/vault'
+    | '/workspace'
     | '/client/assets'
     | '/client/booker'
     | '/client/tasks'
   id:
     | '__root__'
     | '/'
+    | '/_portal'
     | '/checkout'
     | '/client'
     | '/onboarding'
     | '/pricing'
     | '/showcase'
     | '/signin'
+    | '/_portal/vault'
+    | '/_portal/workspace'
     | '/client/assets'
     | '/client/booker'
     | '/client/tasks'
@@ -149,6 +180,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PortalRoute: typeof PortalRouteWithChildren
   CheckoutRoute: typeof CheckoutRoute
   ClientRoute: typeof ClientRouteWithChildren
   OnboardingRoute: typeof OnboardingRoute
@@ -164,6 +196,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_portal': {
+      id: '/_portal'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PortalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/checkout': {
@@ -208,6 +247,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SigninRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_portal/vault': {
+      id: '/_portal/vault'
+      path: '/vault'
+      fullPath: '/vault'
+      preLoaderRoute: typeof PortalVaultRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/_portal/workspace': {
+      id: '/_portal/workspace'
+      path: '/workspace'
+      fullPath: '/workspace'
+      preLoaderRoute: typeof PortalWorkspaceRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/client/assets': {
       id: '/client/assets'
       path: '/assets'
@@ -232,6 +285,19 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface PortalRouteChildren {
+  PortalVaultRoute: typeof PortalVaultRoute
+  PortalWorkspaceRoute: typeof PortalWorkspaceRoute
+}
+
+const PortalRouteChildren: PortalRouteChildren = {
+  PortalVaultRoute: PortalVaultRoute,
+  PortalWorkspaceRoute: PortalWorkspaceRoute,
+}
+
+const PortalRouteWithChildren =
+  PortalRoute._addFileChildren(PortalRouteChildren)
+
 interface ClientRouteChildren {
   ClientAssetsRoute: typeof ClientAssetsRoute
   ClientBookerRoute: typeof ClientBookerRoute
@@ -249,6 +315,7 @@ const ClientRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PortalRoute: PortalRouteWithChildren,
   CheckoutRoute: CheckoutRoute,
   ClientRoute: ClientRouteWithChildren,
   OnboardingRoute: OnboardingRoute,
