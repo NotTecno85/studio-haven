@@ -17,6 +17,8 @@ import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ShowcaseRouteImport } from './routes/showcase'
 import { Route as SigninRouteImport } from './routes/signin'
+import { Route as PortalBillingRouteImport } from './routes/_portal.billing'
+import { Route as PortalSettingsRouteImport } from './routes/_portal.settings'
 import { Route as PortalVaultRouteImport } from './routes/_portal.vault'
 import { Route as PortalWorkspaceRouteImport } from './routes/_portal.workspace'
 import { Route as ClientAssetsRouteImport } from './routes/client.assets'
@@ -62,6 +64,16 @@ const SigninRoute = SigninRouteImport.update({
   path: '/signin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalBillingRoute = PortalBillingRouteImport.update({
+  id: '/billing',
+  path: '/billing',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalSettingsRoute = PortalSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => PortalRoute,
+} as any)
 const PortalVaultRoute = PortalVaultRouteImport.update({
   id: '/vault',
   path: '/vault',
@@ -96,6 +108,8 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof PricingRoute
   '/showcase': typeof ShowcaseRoute
   '/signin': typeof SigninRoute
+  '/billing': typeof PortalBillingRoute
+  '/settings': typeof PortalSettingsRoute
   '/vault': typeof PortalVaultRoute
   '/workspace': typeof PortalWorkspaceRoute
   '/client/assets': typeof ClientAssetsRoute
@@ -110,6 +124,8 @@ export interface FileRoutesByTo {
   '/pricing': typeof PricingRoute
   '/showcase': typeof ShowcaseRoute
   '/signin': typeof SigninRoute
+  '/billing': typeof PortalBillingRoute
+  '/settings': typeof PortalSettingsRoute
   '/vault': typeof PortalVaultRoute
   '/workspace': typeof PortalWorkspaceRoute
   '/client/assets': typeof ClientAssetsRoute
@@ -126,6 +142,8 @@ export interface FileRoutesById {
   '/pricing': typeof PricingRoute
   '/showcase': typeof ShowcaseRoute
   '/signin': typeof SigninRoute
+  '/_portal/billing': typeof PortalBillingRoute
+  '/_portal/settings': typeof PortalSettingsRoute
   '/_portal/vault': typeof PortalVaultRoute
   '/_portal/workspace': typeof PortalWorkspaceRoute
   '/client/assets': typeof ClientAssetsRoute
@@ -142,6 +160,8 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/showcase'
     | '/signin'
+    | '/billing'
+    | '/settings'
     | '/vault'
     | '/workspace'
     | '/client/assets'
@@ -156,6 +176,8 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/showcase'
     | '/signin'
+    | '/billing'
+    | '/settings'
     | '/vault'
     | '/workspace'
     | '/client/assets'
@@ -171,6 +193,8 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/showcase'
     | '/signin'
+    | '/_portal/billing'
+    | '/_portal/settings'
     | '/_portal/vault'
     | '/_portal/workspace'
     | '/client/assets'
@@ -247,6 +271,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SigninRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_portal/billing': {
+      id: '/_portal/billing'
+      path: '/billing'
+      fullPath: '/billing'
+      preLoaderRoute: typeof PortalBillingRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/_portal/settings': {
+      id: '/_portal/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof PortalSettingsRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/_portal/vault': {
       id: '/_portal/vault'
       path: '/vault'
@@ -286,11 +324,15 @@ declare module '@tanstack/react-router' {
 }
 
 interface PortalRouteChildren {
+  PortalBillingRoute: typeof PortalBillingRoute
+  PortalSettingsRoute: typeof PortalSettingsRoute
   PortalVaultRoute: typeof PortalVaultRoute
   PortalWorkspaceRoute: typeof PortalWorkspaceRoute
 }
 
 const PortalRouteChildren: PortalRouteChildren = {
+  PortalBillingRoute: PortalBillingRoute,
+  PortalSettingsRoute: PortalSettingsRoute,
   PortalVaultRoute: PortalVaultRoute,
   PortalWorkspaceRoute: PortalWorkspaceRoute,
 }

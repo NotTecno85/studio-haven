@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
-import { createFileRoute, useServerFn } from "@tanstack/react-router";
+import { useCallback, useEffect, useState, type FormEvent } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { Check, Copy, Download, FileDown, Plus, Type, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -78,7 +79,7 @@ function Vault() {
     URL.revokeObjectURL(url);
   };
 
-  const addBrandAsset = async (event: React.FormEvent<HTMLFormElement>) => {
+  const addBrandAsset = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!session) return;
     try {

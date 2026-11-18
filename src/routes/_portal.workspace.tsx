@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { ArrowRight, Check, Circle, ClipboardCheck, FilePlus2, MessageSquareText, Plus, Send, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -61,7 +61,7 @@ function Workspace() {
 
   useEffect(() => { void refresh(); }, [refresh]);
 
-  const addTask = async (event: React.FormEvent<HTMLFormElement>) => {
+  const addTask = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const cleanTitle = title.trim();
     if (!cleanTitle || !session) return;

@@ -111,14 +111,14 @@ function Onboarding() {
 
               <aside className="h-fit border-t border-border pt-5 lg:sticky lg:top-8 lg:border-l lg:border-t-0 lg:pl-7 lg:pt-0">
                 <p className="font-mono text-[10px] uppercase text-muted-foreground">Your working scope</p>
-                <p className="headline mt-3 font-display text-3xl font-semibold">{estimate ? `$${estimate.toLocaleString()}` : "Let’s define it"}</p>
-                <p className="mt-1 text-xs text-muted-foreground">Indicative project investment</p>
+                <p className="headline mt-3 font-display text-2xl font-semibold">{services.length ? `${services.length.toString().padStart(2, "0")} selected` : "Let’s define it"}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{services.length ? "Working scope overview" : "Choose services to outline your scope"}</p>
                 <div className="mt-5 space-y-3 border-y border-border py-4 text-xs">
-                  {services.length ? services.map((name) => <div key={name} className="flex justify-between gap-3"><span>{name}</span><span className="font-mono text-muted-foreground">included</span></div>) : <p className="text-muted-foreground">Choose a discipline to build your scope.</p>}
+                  {services.length ? services.map((name) => <div key={name} className="flex justify-between gap-3"><span>{name}</span><span className="font-mono text-muted-foreground">scope item</span></div>) : <p className="text-muted-foreground">Choose a discipline to build your scope.</p>}
                   <div className="flex justify-between gap-3 pt-1"><span>Timeline</span><span className="font-mono text-muted-foreground">{timelineWeeks} weeks</span></div>
                 </div>
                 <Button type="button" disabled={!services.length} onClick={() => setStep(2)} className="mt-5 w-full rounded-xl">Continue to your brief <ArrowRight /></Button>
-                <p className="mt-3 text-[11px] leading-5 text-muted-foreground">Estimate is a planning guide. Final scope is confirmed together.</p>
+                <p className="mt-3 text-[11px] leading-5 text-muted-foreground">The studio will confirm project scope and rates directly with you.</p>
               </aside>
             </div>
           ) : (
@@ -134,8 +134,8 @@ function Onboarding() {
               </section>
               <aside className="h-fit border-t border-border pt-5 lg:sticky lg:top-8 lg:border-l lg:border-t-0 lg:pl-7 lg:pt-0">
                 <p className="font-mono text-[10px] uppercase text-muted-foreground">Scope summary</p>
-                <p className="headline mt-3 font-display text-2xl font-semibold">${estimate.toLocaleString()}</p>
-                <div className="mt-4 space-y-2 border-y border-border py-4 text-xs"><p>{services.join(" · ")}</p><p className="text-muted-foreground">{timelineWeeks} week timeline</p></div>
+                <p className="headline mt-3 font-display text-lg font-semibold">{summary}</p>
+                <div className="mt-4 space-y-2 border-y border-border py-4 text-xs"><p>{services.join(" · ")}</p><p className="text-muted-foreground">Rates are confirmed after your brief is reviewed.</p></div>
                 <Button type="submit" disabled={submitting} className="mt-5 w-full rounded-xl">{submitting ? <LoaderCircle className="animate-spin" /> : <Send />} Send project brief</Button>
                 <Button type="button" variant="ghost" onClick={() => setStep(1)} className="mt-2 w-full rounded-xl"><ArrowLeft /> Adjust scope</Button>
               </aside>
