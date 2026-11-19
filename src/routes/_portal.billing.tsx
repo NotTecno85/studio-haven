@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowUpRight, CalendarDays, CircleDollarSign, FileText, ShieldCheck } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { CalendarDays, CircleDollarSign, FileText, ShieldCheck } from "lucide-react";
 import { PanelBoundary } from "@/components/error-boundary";
 import { PageHeading, SectionTitle, StateLabel } from "@/components/portal-chrome";
 
@@ -36,7 +35,7 @@ function Billing() {
               <div className="flex gap-3"><CalendarDays className="mt-0.5 size-4 text-primary" /><div><p className="text-sm font-medium">Renewal date</p><p className="mt-1 text-xs text-muted-foreground">Not set</p></div></div>
               <div className="flex gap-3"><CircleDollarSign className="mt-0.5 size-4 text-primary" /><div><p className="text-sm font-medium">Retainer amount</p><p className="mt-1 text-xs text-muted-foreground">Not set</p></div></div>
             </div>
-            <Button asChild variant="outline" className="mt-5 rounded-xl"><a href="mailto:hello@obsidianatelier.studio?subject=Billing%20question">Ask about billing <ArrowUpRight /></a></Button>
+            <p className="mt-5 text-xs text-muted-foreground">Your studio lead can confirm payment terms and send invoices when billing is connected.</p>
           </div>
         </section>
 

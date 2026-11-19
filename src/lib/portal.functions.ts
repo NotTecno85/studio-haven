@@ -164,7 +164,7 @@ export const sendTeamInvite = createServerFn({ method: "POST" })
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error: invitationError } = await supabaseAdmin.auth.admin.inviteUserByEmail(invite.invite_email, {
-      redirectTo: `${getRequestHeader("origin") ?? ""}/signin`,
+      redirectTo: `https://${getRequestHeader("host") ?? "localhost"}/signin`,
     });
     if (invitationError) {
       const message = invitationError.message.toLowerCase();

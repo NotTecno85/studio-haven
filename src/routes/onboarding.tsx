@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Check, LoaderCircle, Plus, Send } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { PanelBoundary } from "@/components/error-boundary";
 import { PublicHeader, SectionTitle } from "@/components/portal-chrome";
-import { estimateScope, SERVICE_OPTIONS } from "@/lib/portal-model";
+import { scopeSummary, SERVICE_OPTIONS } from "@/lib/portal-model";
 import { supabase } from "@/lib/supabase";
 
 export const Route = createFileRoute("/onboarding")({
@@ -31,11 +31,11 @@ function Onboarding() {
   const [email, setEmail] = useState("");
   const [brief, setBrief] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const estimate = estimateScope(services, timelineWeeks);
+  const summary = scopeSummary(services, timelineWeeks);
 
   const toggleService = (name: string) => setServices((selected) => selected.includes(name) ? selected.filter((item) => item !== name) : [...selected, name]);
 
-  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!supabase) {
       toast.error("Brief delivery isn't connected yet. Your scope is still available on this page.");
@@ -51,7 +51,7 @@ function Onboarding() {
         email: email.trim(),
         services,
         timeline_weeks: timelineWeeks,
-        estimated_budget: estimate,
+        estimated_budget: 0,
         brief: brief.trim(),
       });
       if (error) throw error;
@@ -97,7 +97,7 @@ function Onboarding() {
                       <button key={service.name} type="button" aria-pressed={selected} onClick={() => toggleService(service.name)} className="flex w-full items-center gap-4 py-4 text-left">
                         <span className={selected ? "flex size-5 shrink-0 items-center justify-center rounded-md border border-primary bg-primary text-primary-foreground" : "size-5 shrink-0 rounded-md border border-border"}>{selected ? <Check className="size-3.5" /> : null}</span>
                         <span className="min-w-0 flex-1"><span className="block text-sm font-medium">{service.name}</span><span className="mt-1 block text-xs text-muted-foreground">{service.note}</span></span>
-                        <span className="font-mono text-xs text-muted-foreground">from ${service.fee.toLocaleString()}</span>
+                        <span className="font-mono text-xs text-muted-foreground">scope item</span>
                       </button>
                     );
                   })}

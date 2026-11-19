@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
-import { Link, Outlet, redirect, useNavigate, useRouterState } from "@tanstack/react-router";
+import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { ArrowUpRight, Check, Compass, FolderKanban, LogOut, Settings2, Sparkles, WalletCards } from "lucide-react";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { PanelBoundary } from "@/components/error-boundary";
-import { hasDemoSession, usePortalSession } from "@/lib/use-portal-session";
+import { usePortalSession } from "@/lib/use-portal-session";
 import { supabase } from "@/lib/supabase";
 
 export function BrandMark({ small = false }: { small?: boolean }) {
@@ -174,25 +174,6 @@ export function PortalLayout() {
           <PanelBoundary><Outlet /></PanelBoundary>
         </div>
       </div>
-    </div>
-  );
-}
-
-export function portalBeforeLoad(location: string) {
-  if (typeof window === "undefined") return;
-  if (hasDemoSession()) return;
-  if (!supabase) throw redirect({ to: "/signin" });
-  return supabase.auth.getUser().then(({ data, error }) => {
-    if (error || !data.user) throw redirect({ to: "/signin" });
-    return { userId: data.user.id, location };
-  });
-}
-
-export function PortalWelcome({ section }: { section: string }) {
-  const { session } = usePortalSession();
-  return (
-    <div className="sr-only" aria-live="polite">
-      {session?.company ? `${section} for ${session.company}` : `${section} client portal`}
     </div>
   );
 }

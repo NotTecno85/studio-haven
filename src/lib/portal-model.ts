@@ -6,22 +6,16 @@ export const PORTAL_NAV = [
 ] as const;
 
 export const SERVICE_OPTIONS = [
-  { name: "Brand strategy", fee: 4800, note: "Positioning, narrative, and direction" },
-  { name: "Visual identity", fee: 6200, note: "Identity system and launch toolkit" },
-  { name: "Product design", fee: 7400, note: "Research, interface, and prototyping" },
-  { name: "Digital experience", fee: 5800, note: "Website art direction and design" },
-  { name: "Motion system", fee: 3900, note: "Motion principles and key moments" },
+  { name: "Brand strategy", note: "Positioning, narrative, and direction" },
+  { name: "Visual identity", note: "Identity system and launch toolkit" },
+  { name: "Product design", note: "Research, interface, and prototyping" },
+  { name: "Digital experience", note: "Website art direction and design" },
+  { name: "Motion system", note: "Motion principles and key moments" },
 ] as const;
 
-export function estimateScope(services: string[], timelineWeeks: number): number {
-  const selectedTotal = SERVICE_OPTIONS.reduce(
-    (sum, service) => sum + (services.includes(service.name) ? service.fee : 0),
-    0,
-  );
-  if (selectedTotal === 0) return 0;
-
-  const paceFactor = timelineWeeks < 6 ? 1.2 : timelineWeeks < 8 ? 1.1 : timelineWeeks > 14 ? 0.95 : 1;
-  return Math.round((selectedTotal * paceFactor) / 100) * 100;
+export function scopeSummary(services: string[], timelineWeeks: number): string {
+  if (services.length === 0) return "Choose a discipline";
+  return `${services.length} ${services.length === 1 ? "discipline" : "disciplines"} · ${timelineWeeks} weeks`;
 }
 
 export const DEMO_DELIVERABLES = [
