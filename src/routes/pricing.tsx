@@ -96,7 +96,7 @@ function Pricing() {
           <span className="headline font-display text-lg font-semibold">Obsidian Atelier</span>
           <div className="flex items-center gap-2">
             <Link
-              to="/portfolio"
+              to="/showcase"
               className="rounded-xl px-4 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               Portfolio
